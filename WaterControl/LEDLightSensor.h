@@ -13,14 +13,15 @@
 class LEDLightSensor {
  private:
   uint8_t data[6];
-  uint8_t _pin, _type;
+  uint8_t _anode, _cathode;
   boolean read(void);
   unsigned long _lastreadtime;
   boolean firstreading;
+  void charge(void);
 
  public:
-  LEDLightSensor(uint8_t pin, uint8_t type);
+  LEDLightSensor(uint8_t anode, uint8_t cathode);
   void begin(void);
-  float readHumidity(void);
+  float readBrightness(void);
 
 };

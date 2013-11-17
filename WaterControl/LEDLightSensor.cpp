@@ -2,20 +2,22 @@
 
 #include "LEDLightSensor.h"
 
-LEDLightSensor::LEDLightSensor(uint8_t pin, uint8_t type) {
-  _pin = pin;
-  _type = type;
+LEDLightSensor::LEDLightSensor(uint8_t anode, uint8_t cathode) {
+  _anode = anode;
+  _cathode = cathode;
   firstreading = true;
 }
 
 void LEDLightSensor::begin(void) {
   // set up the pins!
-  pinMode(_pin, INPUT);
-  digitalWrite(_pin, HIGH);
+  pinMode(_anode, INPUT);
+  pinMode(_cathode, INPUT);
+  digitalWrite(_anode, HIGH);
+  digitalWrite(_cathode, HIGH);
   _lastreadtime = 0;
 }
 
-float LEDLightSensor::readHumidity(void) {
+float LEDLightSensor::readBrightness(void) {
   float f;
   if(read())
   {
@@ -35,7 +37,7 @@ boolean LEDLightSensor::read(void) {
   unsigned long currenttime;
 
   // pull the pin high and wait 250 milliseconds
-  digitalWrite(_pin, HIGH);
+  digitalWrite(_cathode, HIGH);
   delay(250);
 
   currenttime = millis();
@@ -57,25 +59,25 @@ boolean LEDLightSensor::read(void) {
   data[0] = data[1] = data[2] = data[3] = data[4] = 0;
   
   // now pull it low for ~20 milliseconds
-  pinMode(_pin, OUTPUT);
-  digitalWrite(_pin, LOW);
+  pinMode(_cathode, OUTPUT);
+  digitalWrite(_cathode, LOW);
   delay(20);
   cli();
-  digitalWrite(_pin, HIGH);
+  digitalWrite(_cathode, HIGH);
   delayMicroseconds(40);
-  pinMode(_pin, INPUT);
+  pinMode(_cathode, INPUT);
 
   // read in timings
   for ( i=0; i< MAXTIMINGS; i++) {
     counter = 0;
-    while (digitalRead(_pin) == laststate) {
+    while (digitalRead(_cathode) == laststate) {
       counter++;
       delayMicroseconds(1);
       if (counter == 255) {
         break;
       }
     }
-    laststate = digitalRead(_pin);
+    laststate = digitalRead(_cathode);
 
     if (counter == 255) break;
 

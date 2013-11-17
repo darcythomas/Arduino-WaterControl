@@ -1,9 +1,19 @@
-// Example testing sketch for various DHT humidity/temperature sensors
-// Written by ladyada, public domain
 
 #include "DHT.h"
+#include "ConductivitySensor.h"
+#include "Pump.h"
+
+
+#define PumpPinA 4  
+#define PumpPinB 5  
+#define PumpPinC 6  
+#define PumpPinD 7  
+
 
 #define DHTPIN 9     // what pin we're connected to
+
+#define SoilPin 2
+#define WaterPin 3
 
 // Uncomment whatever type you're using!
 #define DHTTYPE DHT11   // DHT 11 
@@ -16,6 +26,8 @@
 // Connect a 10K resistor from pin 2 (data) to pin 1 (power) of the sensor
 
 DHT dht(DHTPIN, DHTTYPE);
+ConductivitySensor SoilSensor(SoilPin);
+ConductivitySensor LevelSensor(SoilPin);
 
 void setup() {
   Serial.begin(9600); 
@@ -29,6 +41,7 @@ void loop() {
   // Sensor readings may also be up to 2 seconds 'old' (its a very slow sensor)
   float h = dht.readHumidity();
   float t = dht.readTemperature();
+  float s = SoilSensor.readConductivity();
 
   // check if returns are valid, if they are NaN (not a number) then something went wrong!
   if (isnan(t) || isnan(h)) {
@@ -41,6 +54,11 @@ void loop() {
     Serial.print("Temperature: "); 
     Serial.print(t);
     Serial.println(" *C");
+    
+    Serial.print("Conducivity: "); 
+    Serial.print(s);
+     
+    
   }
 }
 
