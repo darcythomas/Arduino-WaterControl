@@ -4,6 +4,10 @@
 #include "Pump.h"
 
 
+long previousMillis = 0;       
+long interval = 1000;    
+
+
 #define PumpPinA 4  
 #define PumpPinB 5  
 #define PumpPinC 6  
@@ -27,21 +31,35 @@
 
 DHT dht(DHTPIN, DHTTYPE);
 ConductivitySensor SoilSensor(SoilPin);
-ConductivitySensor LevelSensor(SoilPin);
+ConductivitySensor LevelSensor(WaterPin);
 
 void setup() {
   Serial.begin(9600); 
   Serial.println("DHTxx test!");
-
-  dht.begin();
 }
 
-void loop() {
-  // Reading temperature or humidity takes about 250 milliseconds!
-  // Sensor readings may also be up to 2 seconds 'old' (its a very slow sensor)
+void loop() {  
+   unsigned long currentMillis = millis(); 
+   if(currentMillis - previousMillis > interval) {    
+      previousMillis = currentMillis;
+      printOut();
+  }  
+}
+boolean turnOnPump()
+{
+  //if day |light sensor
+  //if last water was not pumped too recently (vary on humidity+temp?)
+  //if water level ok
+  //if soil is dry
+}
+
+void printOut()
+{
+  
   float h = dht.readHumidity();
   float t = dht.readTemperature();
   float s = SoilSensor.readConductivity();
+  float l = LevelSensor.readConductivity();
 
   // check if returns are valid, if they are NaN (not a number) then something went wrong!
   if (isnan(t) || isnan(h)) {
@@ -49,16 +67,27 @@ void loop() {
   } 
   else {
     Serial.print("Humidity: "); 
-    Serial.print(h);
-    Serial.print(" %\t");
+    Serial.print(h);    
+    Serial.println(" %");
+ 
+      
     Serial.print("Temperature: "); 
     Serial.print(t);
     Serial.println(" *C");
+       
+    Serial.print("Level conductivity: "); 
+    Serial.println(l);
+   
+ 
     
-    Serial.print("Conducivity: "); 
+    Serial.print("Soil conducivity: "); 
     Serial.print(s);
+    Serial.print("\r\n");
+    Serial.print("\r\n");
      
     
   }
+  
 }
+
 

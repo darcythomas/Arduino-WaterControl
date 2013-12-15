@@ -11,8 +11,10 @@ ConductivitySensor::ConductivitySensor(uint8_t pin) {
 
 
 float ConductivitySensor::readConductivity(void) {
+  //TODO turn sensor on and off (will require hardware change)
+  //this is conserve energy and reduce galvanic damage to sensors
   int reading = analogRead(_pin); 
-   return (reading/1023.0) * 1000.0;
+   return (reading/1023.0) * 1000.0;//return normalised result
 }
 
 
