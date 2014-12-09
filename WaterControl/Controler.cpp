@@ -1,4 +1,6 @@
 #include "Controler.h"
+#include <Time.h>
+#include <TimeAlarms.h>
 
 #define PumpPinA 4  
 #define PumpPinB 5  
@@ -146,7 +148,7 @@ float Controler::WaterConductivity()
 void  Controler::RunPump(unsigned long period)
 {
   _pump.pumpOn();
-  delay(period);
+  Alarm.delay(period);
    _pumpLastRanAt = millis();
   _pump.pumpOff();
   

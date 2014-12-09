@@ -1,6 +1,8 @@
 
 
 #include "ConductivitySensor.h"
+#include <Time.h>
+#include <TimeAlarms.h>
 
 ConductivitySensor::ConductivitySensor(uint8_t pin) {
   _pin = pin; 
@@ -27,7 +29,7 @@ float ConductivitySensor::readConductivity(void) {
   if(_powerPin >0)
   {
     digitalWrite(_powerPin, HIGH);
-    delay(20);//give time to stablise
+    Alarm.delay(20);//give time to stablise
   }
 
   int reading = analogRead(_pin); 

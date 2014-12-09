@@ -5,6 +5,8 @@ written by Adafruit Industries
 */
 
 #include "DHT.h"
+#include <Time.h>
+#include <TimeAlarms.h>
 
 DHT::DHT(uint8_t pin, uint8_t type) {
   _pin = pin;
@@ -80,7 +82,7 @@ boolean DHT::read(void) {
 
   // pull the pin high and wait 250 milliseconds
   digitalWrite(_pin, HIGH);
-  delay(250);
+  Alarm.delay(250);
 
   currenttime = millis();
   if (currenttime < _lastreadtime) {
@@ -89,7 +91,7 @@ boolean DHT::read(void) {
   }
   if (!firstreading && ((currenttime - _lastreadtime) < 2000)) {
     return true; // return last correct measurement
-    //delay(2000 - (currenttime - _lastreadtime));
+    //Alarm.delay(2000 - (currenttime - _lastreadtime));
   }
   firstreading = false;
   /*
@@ -103,7 +105,7 @@ boolean DHT::read(void) {
   // now pull it low for ~20 milliseconds
   pinMode(_pin, OUTPUT);
   digitalWrite(_pin, LOW);
-  delay(20);
+  Alarm.delay(20);
   cli();
   digitalWrite(_pin, HIGH);
   delayMicroseconds(40);

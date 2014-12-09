@@ -1,6 +1,9 @@
 
 
+
 #include "LEDLightSensor.h"
+#include <Time.h>
+#include <TimeAlarms.h>
 
 LEDLightSensor::LEDLightSensor(uint8_t anode, uint8_t cathode) {
   _anode = anode;
@@ -38,7 +41,7 @@ boolean LEDLightSensor::read(void) {
 
   // pull the pin high and wait 250 milliseconds
   digitalWrite(_cathode, HIGH);
-  delay(250);
+  Alarm.delay(250);
 
   currenttime = millis();
   if (currenttime < _lastreadtime) {
@@ -47,7 +50,7 @@ boolean LEDLightSensor::read(void) {
   }
   if (!firstreading && ((currenttime - _lastreadtime) < 2000)) {
     return true; // return last correct measurement
-    //delay(2000 - (currenttime - _lastreadtime));
+    //Alarm.delay(2000 - (currenttime - _lastreadtime));
   }
   firstreading = false;
   /*
@@ -61,7 +64,7 @@ boolean LEDLightSensor::read(void) {
   // now pull it low for ~20 milliseconds
   pinMode(_cathode, OUTPUT);
   digitalWrite(_cathode, LOW);
-  delay(20);
+  Alarm.delay(20);
   cli();
   digitalWrite(_cathode, HIGH);
   delayMicroseconds(40);

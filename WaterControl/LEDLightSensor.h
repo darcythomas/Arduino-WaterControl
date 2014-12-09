@@ -4,7 +4,8 @@
  #include "WProgram.h"
 #endif
 
-
+#include <Time.h>
+#include <TimeAlarms.h>
 
 #define MAXTIMINGS 85
 
