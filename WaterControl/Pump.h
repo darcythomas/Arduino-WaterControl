@@ -18,7 +18,6 @@ class Pump {
 
  public:
   Pump(uint8_t pin1, uint8_t pin2, uint8_t pin3, uint8_t pin4);
-  void begin(void);
   void pumpOn(void);
   void pumpOff(void);
   boolean isPumpOn(void);

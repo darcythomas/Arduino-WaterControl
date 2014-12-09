@@ -1,26 +1,25 @@
 
-#include "DHT.h"
-#include "ConductivitySensor.h"
-#include "Pump.h"
+
+#include "Controler.h"
 
 
 long previousMillis = 0;       
 long interval = 1000;    
 
 
-#define PumpPinA 4  
-#define PumpPinB 5  
-#define PumpPinC 6  
-#define PumpPinD 7  
+//#define PumpPinA 4  
+//#define PumpPinB 5  
+//#define PumpPinC 6  
+//#define PumpPinD 7  
 
 
-#define DHTPIN 9     // what pin we're connected to
+//#define DHTPIN 9     // what pin we're connected to
 
-#define SoilPin 2
-#define WaterPin 3
+//#define SoilPin 2
+//#define WaterPin 3
 
 // Uncomment whatever type you're using!
-#define DHTTYPE DHT11   // DHT 11 
+//#define DHTTYPE DHT11   // DHT 11 
 //#define DHTTYPE DHT22   // DHT 22  (AM2302)
 //#define DHTTYPE DHT21   // DHT 21 (AM2301)
 
@@ -29,9 +28,11 @@ long interval = 1000;
 // Connect pin 4 (on the right) of the sensor to GROUND
 // Connect a 10K resistor from pin 2 (data) to pin 1 (power) of the sensor
 
-DHT dht(DHTPIN, DHTTYPE);
-ConductivitySensor SoilSensor(SoilPin);
-ConductivitySensor LevelSensor(WaterPin);
+//DHT dht(DHTPIN, DHTTYPE);
+//ConductivitySensor SoilSensor(SoilPin);
+//ConductivitySensor LevelSensor(WaterPin);
+
+Controler _controler;
 
 void setup() {
   Serial.begin(9600); 
@@ -43,23 +44,44 @@ void loop() {
    if(currentMillis - previousMillis > interval) {    
       previousMillis = currentMillis;
       printOut();
+      control();
   }  
 }
+
+void control()
+{
+  _controler.CheckAndRunPump();
+}
+
+
+
+
+
 boolean turnOnPump()
 {
+  float soilThreshold = 200.0;
+  
+  
   //if day |light sensor
   //if last water was not pumped too recently (vary on humidity+temp?)
   //if water level ok
+  
+  
   //if soil is dry
+  //if(  SoilSensor.readConductivity() > soilThreshold ) {return false;}
+  
+  return true;
 }
 
 void printOut()
 {
   
-  float h = dht.readHumidity();
-  float t = dht.readTemperature();
-  float s = SoilSensor.readConductivity();
-  float l = LevelSensor.readConductivity();
+  float h = _controler.ReadHumidity();
+  float t = _controler.ReadTemperature();
+  float s = _controler.SoilConductivity();
+  float l = _controler.WaterConductivity();
+  
+  
 
   // check if returns are valid, if they are NaN (not a number) then something went wrong!
   if (isnan(t) || isnan(h)) {

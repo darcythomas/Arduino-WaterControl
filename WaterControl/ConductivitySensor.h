@@ -7,10 +7,12 @@
 class ConductivitySensor {
  private: 
   uint8_t _pin;
+  uint8_t _powerPin;
 
 
  public:
   ConductivitySensor(uint8_t pin);
+  ConductivitySensor(uint8_t pin, uint8_t powerPin);
   float readConductivity(void);
 
 };
