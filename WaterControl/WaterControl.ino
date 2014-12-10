@@ -40,19 +40,25 @@ Controler _controler;
 void setup() {
   Serial.begin(9600); 
   Serial.println("DHTxx test!");
+  
+  
+  
 }
 
 void loop() {  
    unsigned long currentMillis = millis(); 
    if(currentMillis - previousMillis > interval) {    
       previousMillis = currentMillis;
-      printOut();
+
       control();
   }  
 }
 
+
+
 void control()
 {
+  printOut();
   _controler.CheckAndRunPump();
 }
 
