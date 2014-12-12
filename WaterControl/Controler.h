@@ -29,7 +29,9 @@ private:
 
 public:
   Controler();
-  boolean PumpShouldRun(void);  
+  boolean PumpShouldRun(void); 
+  
+  float ReadLuminosity(void);
   float ReadHumidity(void);
   float ReadTemperature(void);
   float SoilConductivity(void);

@@ -125,6 +125,11 @@ boolean Controler::IsSoilDry()
 }
 
 
+float Controler::ReadLuminosity()
+{
+  return _lightsensor.readBrightness();
+}
+
 float Controler::ReadHumidity()
 {
   return _dht.readHumidity();

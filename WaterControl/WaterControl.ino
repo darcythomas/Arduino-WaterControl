@@ -41,17 +41,22 @@ void setup() {
   Serial.begin(9600); 
   Serial.println("DHTxx test!");
   
-  
+  Alarm.timerRepeat(3, control); 
   
 }
 
 void loop() {  
-   unsigned long currentMillis = millis(); 
+  /* unsigned long currentMillis = millis(); 
    if(currentMillis - previousMillis > interval) {    
       previousMillis = currentMillis;
 
       control();
-  }  
+     
+      
+    
+  }   */
+  
+   Alarm.delay(10000);
 }
 
 
@@ -88,15 +93,23 @@ void printOut()
   float h = _controler.ReadHumidity();
   float t = _controler.ReadTemperature();
   float s = _controler.SoilConductivity();
+  float c = _controler.ReadLuminosity();
   float l = _controler.WaterConductivity();
   
   
+  
+  Serial.print("Time: ");
+  Serial.println(  __TIME__ );
 
   // check if returns are valid, if they are NaN (not a number) then something went wrong!
   if (isnan(t) || isnan(h)) {
     Serial.println("Failed to read from DHT");
   } 
   else {
+    Serial.print("Brightness: "); 
+    Serial.print(c);    
+    Serial.println(" ");
+    
     Serial.print("Humidity: "); 
     Serial.print(h);    
     Serial.println(" %");
@@ -107,7 +120,7 @@ void printOut()
     Serial.println(" *C");
        
     Serial.print("Level conductivity: "); 
-    Serial.println(l);
+    Serial.println(c);
    
  
     

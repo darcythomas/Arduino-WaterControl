@@ -22,6 +22,19 @@ void LEDLightSensor::begin(void) {
 
 float LEDLightSensor::readBrightness(void) {
   float f;
+  int j;
+  begin();
+  
+    pinMode(_cathode,INPUT);
+  digitalWrite(_cathode,LOW);  // turn off internal pull-up resistor
+  
+  for ( j = 0; j < 30000; j++) {
+    if ( digitalRead(_cathode)==0) break;
+    
+  delayMicroseconds(4000);
+  }
+  
+  return 30000.0-j;
   if(read())
   {
   f= 1.0;
@@ -65,7 +78,7 @@ boolean LEDLightSensor::read(void) {
   pinMode(_cathode, OUTPUT);
   digitalWrite(_cathode, LOW);
   Alarm.delay(20);
-  cli();
+  //cli();
   digitalWrite(_cathode, HIGH);
   delayMicroseconds(40);
   pinMode(_cathode, INPUT);
