@@ -18,7 +18,7 @@
 #define LightSensorAnode 2
 #define LightSensorCathode 3
 
-unsigned long Interval = 60000;//((1000 * 60) * 10);  //5min
+unsigned long Interval = 3000000;//((1000 * 3000) * 1);  //440 times over 15 days
 
 boolean IsSoilDry();
 boolean IsThereWater();
@@ -90,7 +90,7 @@ boolean Controler::PumpShouldRun(void) {
 
 boolean Controler::HasEnoughTimeElapsed()
 {
-  
+  //return true;
   unsigned long currentMillis = millis(); 
   if(currentMillis - _pumpLastRanAt > Interval   ) {    
     _pumpLastRanAt = currentMillis;
@@ -106,7 +106,7 @@ boolean Controler::HasEnoughTimeElapsed()
 
 boolean Controler::IsThereWater()
 { 
-  float threshold = 250;
+  float threshold = 0;
   float conductivity = WaterConductivity();
 
   return conductivity >  threshold;   

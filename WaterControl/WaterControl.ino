@@ -41,29 +41,31 @@ void setup() {
   Serial.begin(9600); 
   Serial.println("DHTxx test!");
   
-  Alarm.timerRepeat(3, control); 
+  Alarm.timerRepeat(2, control); 
   
 }
 
 void loop() {  
-  /* unsigned long currentMillis = millis(); 
-   if(currentMillis - previousMillis > interval) {    
+   unsigned long currentMillis = millis(); 
+   if((currentMillis - previousMillis) > interval) {    
       previousMillis = currentMillis;
 
-      control();
+     // control();
      
       
     
-  }   */
+  }   
   
-   Alarm.delay(10000);
+  
+  
+   Alarm.delay(1000);
 }
 
 
 
 void control()
 {
-  printOut();
+ // printOut();
   _controler.CheckAndRunPump();
 }
 
@@ -89,8 +91,9 @@ boolean turnOnPump()
 
 void printOut()
 {
-  
-  float h = _controler.ReadHumidity();
+ Serial.print("Time: ");
+  Serial.println(  now()); 
+ float h = _controler.ReadHumidity();
   float t = _controler.ReadTemperature();
   float s = _controler.SoilConductivity();
   float c = _controler.ReadLuminosity();
@@ -111,12 +114,12 @@ void printOut()
     Serial.println(" ");
     
     Serial.print("Humidity: "); 
-    Serial.print(h);    
+   // Serial.print(h);    
     Serial.println(" %");
  
       
     Serial.print("Temperature: "); 
-    Serial.print(t);
+  //  Serial.print(t);
     Serial.println(" *C");
        
     Serial.print("Level conductivity: "); 
