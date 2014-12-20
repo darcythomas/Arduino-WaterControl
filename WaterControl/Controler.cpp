@@ -18,7 +18,7 @@
 #define LightSensorAnode 2
 #define LightSensorCathode 3
 
-unsigned long Interval = 3000000;//((1000 * 3000) * 1);  //440 times over 15 days
+unsigned long Interval = 1840909;//((1000 * 3000) * 1);  //440 times over 15 days
 
 boolean IsSoilDry();
 boolean IsThereWater();
@@ -60,7 +60,7 @@ boolean Controler::PumpShouldRun(void) {
   //if last water was not pumped too recently (vary on humidity+temp?)
   if(!HasEnoughTimeElapsed())
   {
-    Serial.println("It's way too soon to be pumping!");
+   // Serial.println("It's way too soon to be pumping!");
     return false;
   }
   //if day |light sensor
@@ -92,7 +92,11 @@ boolean Controler::HasEnoughTimeElapsed()
 {
   //return true;
   unsigned long currentMillis = millis(); 
-  if(currentMillis - _pumpLastRanAt > Interval   ) {    
+  if(currentMillis - _pumpLastRanAt > Interval   ) {   
+   
+    Serial.print("Time: ");
+  Serial.println(  now()); 
+  
     _pumpLastRanAt = currentMillis;
     Serial.print("_pumpLastRanAt ");
     Serial.println(_pumpLastRanAt);   
